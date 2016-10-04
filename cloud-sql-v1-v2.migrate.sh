@@ -87,13 +87,13 @@ echo -e "\tcreating:\n"
 
 for DB in `cat /tmp/v1dblist.txt`; do
 
-    echo -en "\t\t* ${DB}_dump_notrigger.sql ... "
+    echo -en "\t\t* /tmp/${DB}_dump_notrigger.sql ... "
 
     mysqldump --databases ${DB} \
 	      -h ${v1_host} -u ${user} --password=${pass} \
 	      --ssl-ca=${v1_ca} --ssl-cert=${v1_cert} --ssl-key=${v1_key} \
 	      --hex-blob --default-character-set=utf8 --skip-triggers \
-	      > ${DB}_dump_notrigger.sql;
+	      > /tmp/${DB}_dump_notrigger.sql;
 
     echo "done"
 
@@ -127,12 +127,12 @@ echo -e "\tpiping:\n"
 
 for DB in `cat /tmp/v1dblist.txt`; do
 
-    echo -en "\t\t* ${DB}_dump_notrigger.sql ... "
+    echo -en "\t\t* /tmp/${DB}_dump_notrigger.sql ... "
 
     mysql \
 	-h ${v2_host} -u ${user} --password=${pass} \
 	--ssl-ca=${v2_ca} --ssl-cert=${v2_cert} --ssl-key=${v2_key} \
-	< ${DB}_dump_notrigger.sql;
+	< /tmp/${DB}_dump_notrigger.sql;
 
     echo "done"
     echo ""
@@ -163,12 +163,12 @@ echo -e "\tcreating:\n"
 
 for DB in `cat /tmp/v1dblist.txt`; do
 
-    echo -en "\t\t* ${DB}-routines.sql ... "
+    echo -en "\t\t* /tmp/${DB}-routines.sql ... "
 
     mysqldump -h ${v1_host} -u ${user} --password=${pass} \
 	      --ssl-ca=${v1_ca} --ssl-cert=${v1_cert} --ssl-key=${v1_key} \
 	      --no-data --no-create-info --routines ${DB} \
-	      > ${DB}-routines.sql;
+	      > /tmp/${DB}-routines.sql;
 
     echo "done"
 
@@ -186,12 +186,12 @@ echo -e "\tpiping:\n"
  
 for DB in `cat /tmp/v1dblist.txt`; do
 
-    echo -en "\t\t* ${DB}-routines.sql ... "
+    echo -en "\t\t* /tmp/${DB}-routines.sql ... "
 
     mysql \
 	-h ${v2_host} -u ${user} --password=${pass} \
 	--ssl-ca=${v2_ca} --ssl-cert=${v2_cert} --ssl-key=${v2_key} ${DB} \
-	< ${DB}-routines.sql;
+	< /tmp/${DB}-routines.sql;
 
     echo "done"
 
